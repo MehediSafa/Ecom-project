@@ -20,7 +20,7 @@ let allUserController = async (req,res)=>{
 
 let singleUser = async (req,res) => {
     let {id} = req.params 
-    let data = await User.findById({_id:id})
+    let data = await User.findById({_id:id}).select('-password')
 
     res.status(200).json({
         success:true,
@@ -29,4 +29,19 @@ let singleUser = async (req,res) => {
     })
 }
 
-module.exports = {allUserController,singleUser}
+
+
+//update user 
+
+let activeUser = async (req,res) => {
+    let data = await User.find({status:'active'})
+
+    res.status(200).json({
+        success:true,
+        message:   `Active User Info`,
+        data:data
+    })
+}
+
+
+module.exports = {allUserController,singleUser,activeUser }
