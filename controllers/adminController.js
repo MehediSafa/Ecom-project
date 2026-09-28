@@ -11,6 +11,22 @@ let allUserController = async (req,res)=>{
         }
     )
     
+} 
+
+
+//delte user
+
+//check individual user 
+
+let singleUser = async (req,res) => {
+    let {id} = req.params 
+    let data = await User.findById({_id:id})
+
+    res.status(200).json({
+        success:true,
+        message:`User information `,
+        data:data,
+    })
 }
 
-module.exports = allUserController
+module.exports = {allUserController,singleUser}
