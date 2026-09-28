@@ -33,15 +33,46 @@ let singleUser = async (req,res) => {
 
 //update user 
 
+//active user
+
 let activeUser = async (req,res) => {
     let data = await User.find({status:'active'})
 
     res.status(200).json({
         success:true,
-        message:   `Active User Info`,
+        message:`Active User Info`,
+        data:data
+    })
+}
+
+//active user
+
+let deActiveUser = async (req,res) => {
+    let data = await User.find({status:'deactive'})
+
+    res.status(200).json({
+        success:true,
+        message:`Deactive User Info`,
         data:data
     })
 }
 
 
-module.exports = {allUserController,singleUser,activeUser }
+//update user
+
+let updateUser = async (req,res) => {
+    let {id} = req.params
+
+    await User.findByIdAndUpdate({_id:id},req.body,{new:true})
+
+    res.status(200).json({
+        success:true,
+        message:`User Updated`
+    })
+
+}
+
+
+
+
+module.exports = {allUserController,singleUser,activeUser,deActiveUser,updateUser}
