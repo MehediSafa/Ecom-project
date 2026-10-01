@@ -3,7 +3,7 @@ const {userController,updateUserProfile} = require('../controllers/userControlle
 const _ = express.Router()
 
 
-_.get('/product',userController)
+_.get('/alluser',userController)
 
 _.post('/updateprofile/:id',updateUserProfile)
 

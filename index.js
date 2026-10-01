@@ -43,8 +43,8 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userMiddleware,userRouter);
 
 app.use('/api/v1/admin', adminMiddleware, adminRouter);
-app.use('/api/v1/vendor', vendorMiddleware, vendorRouter);
-app.use('/api/v1/vendor', vendorMiddleware,vendorRouter);
+
+app.use('/api/v1/vendor',vendorRouter); // middleware off for now
 
 
 //port
