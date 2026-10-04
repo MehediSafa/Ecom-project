@@ -35,14 +35,15 @@ app.use(express.json());
 
 // for swagger 
 
-// app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 
 //api starts
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userMiddleware,userRouter);
 
-app.use('/api/v1/admin', adminMiddleware, adminRouter);
+// app.use('/api/v1/admin', adminMiddleware, adminRouter);
+app.use('/api/v1/admin', adminRouter);
 
 app.use('/api/v1/vendor',vendorRouter); // middleware off for now
 

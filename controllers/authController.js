@@ -224,4 +224,6 @@ let resetPassword = async (req, res) => {
 };
 
 
+
+
 module.exports = {registrationController,loginController,verifyEmailController,forgotPasswordController,resetPassword}

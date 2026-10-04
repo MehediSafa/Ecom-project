@@ -14,7 +14,7 @@ let allUserController = async (req,res)=>{
 } 
 
 
-//delte user
+
 
 //check individual user 
 
@@ -58,6 +58,26 @@ let deActiveUser = async (req,res) => {
 }
 
 
+//delte user
+
+let deleteUser = async (req,res) => {
+    let {id} = req.params 
+let user = await User.findByIdAndDelete(id)
+
+if(!user){
+    return res.status(400).json({
+        success:false,
+        message:'User not found'
+    })
+
+    
+}
+   return res.status(200).json({
+        success:true,
+        message:'User Deleted'
+    })
+}
+
 //update user
 
 let updateUser = async (req,res) => {
@@ -75,4 +95,4 @@ let updateUser = async (req,res) => {
 
 
 
-module.exports = {allUserController,singleUser,activeUser,deActiveUser,updateUser}
+module.exports = {allUserController,singleUser,activeUser,deActiveUser,updateUser,deleteUser}

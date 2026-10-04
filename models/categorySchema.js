@@ -10,13 +10,19 @@ const categorySchema = new Schema({
     status: {
         type:String,
         enum:['active','deactive','pending'],
-        defaul: 'deactive'
+        default: 'deactive'
     },
 
     owner:{
         type:mongoose.Schema.Types.ObjectId,
         ref:'User'
-    }
+    },
+    subCategory:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:'SubCategory'
+        }
+    ]
     
 })
 
