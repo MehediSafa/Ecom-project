@@ -14,7 +14,12 @@ let userController = async (req,res)=>{
 
 let updateUserProfile = async (req,res) => {
     let {id} = req.params
-    let data = await User.findByIdAndUpdate({id},req.body,{new:true})
+    let {fullName, email} = req.body
+    
+    let data = await User.findByIdAndUpdate({id},{
+        fullName:fullName,
+        email:email
+    },{new:true,runValidators:true})
 
     res.status(200).json({
         success:true,

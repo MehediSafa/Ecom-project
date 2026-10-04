@@ -4,7 +4,7 @@
 //dotenv
 require('dotenv').config();
 //swagger
-const swagger = require('swagger-ui-express')
+const swaggerUi  = require('swagger-ui-express')
 const swaggerSpec = require('./config/swagger.js');
 
 
@@ -12,6 +12,10 @@ const swaggerSpec = require('./config/swagger.js');
 const express = require('express');
 const app = express();
 
+
+//cors 
+
+const cors = require('cors');
 
 
 
@@ -32,6 +36,9 @@ mongodbConfig();
 //for reading json file 
 
 app.use(express.json());
+app.use(cors());
+
+
 
 // for swagger 
 
@@ -42,8 +49,8 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/user', userMiddleware,userRouter);
 
-// app.use('/api/v1/admin', adminMiddleware, adminRouter);
-app.use('/api/v1/admin', adminRouter);
+app.use('/api/v1/admin', adminMiddleware, adminRouter);
+
 
 app.use('/api/v1/vendor',vendorRouter); // middleware off for now
 
