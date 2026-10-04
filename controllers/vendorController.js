@@ -43,7 +43,10 @@ let createCategory =  async (req,res) => {
 
 let getAllCategory = async (req,res)=>{
 
-    let category = await Cat.find({}).populate('owner')
+    let category = await Cat.find({}).populate({
+        path:'owner',
+        select :'-password'
+})
     res.status(200).json({
         success:true,
         message:"All category",
@@ -116,13 +119,28 @@ let getAllCategoryWiseSubCategory = async (req,res)=>{
 //show category under ownser
 
 let getAllOwnerWiseCategory = async (req,res) =>{
+    
     let {id} = req.params
     let data = await Cat.find({owner:id})
+    let cat = []
+
+    data.map(async (item) => {
+
+        let giveSubCat = await SubCat.find({parentCategory:item._id})
+
+        
+
+        cat.push({          
+            ...item,
+            subCategory : giveSubCat       
+        })
+    })
+    
 
     res.status(200).json({
         success:true,
         message:"All category",
-        data:data
+        data:cat
     })
 }
 
