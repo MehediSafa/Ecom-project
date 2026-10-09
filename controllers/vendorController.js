@@ -1,49 +1,69 @@
 
 let Cat = require('../models/categorySchema.js')
 let SubCat = require('../models/subCategorySchema.js')
-
+let User = require('../models/userSchema.js')
+let {categoryCreatedEmail} = require('../utils/emailSender.js')
 
 
 //create category
 
-let createCategory =  async (req,res) => {
-    let {name,owner} = req.body
+let createCategory = async (req, res) => {
+    let { name, owner } = req.body
 
-    if(!name){
+    if (!name) {
         return res.status(201).json({
-            success:false,
-            message:'Please enter a category'
+            success: false,
+            message: 'Please enter a category'
         })
     }
 
-      if(!owner){
+    if (!owner) {
         return res.status(201).json({
-            success:false,
-            message:'Owner does not exist'
+            success: false,
+            message: 'Owner does not exist'
         })
     }
 
-    let existingName = await Cat.findOne({name:name.toLowerCase() })
+    let existingName = await Cat.findOne({ name: name.toLowerCase() })
 
-    if(existingName){
+    if (existingName) {
         return res.status(201).json({
-            success:false,
-            message:'Category already exists'
+            success: false,
+            message: 'Category already exists'
         })
     }
 
     let cat = new Cat({
-        name:name.toLowerCase(),
-        owner:owner
+        name: name.toLowerCase(),
+        owner: owner
     })
 
     await cat.save()
 
+
+    //send email to admin after category creation
+
+    const admins = await User.find({ role: 'admin', status: 'active' }).select('email')
+
+    const adminEmails = admins.map((item) => {
+        return item.email;
+    });
+
+    const vendor = await User.findById(owner).select('fullName');
+
+    if (adminEmails.length > 0) {
+        categoryCreatedEmail(adminEmails, cat.name, vendor.fullName);
+    }
+
     res.status(201).json({
-            success:true,
-            message:'Category created'
-        })
+        success: true,
+        message: 'Category created'
+    })
 }
+
+
+
+   
 
 
 //find all category

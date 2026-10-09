@@ -68,4 +68,32 @@ async function forgetPasswordEmail(email, token) {
   }
 }
 
-module.exports = {verificationEmail,forgetPasswordEmail}
+
+
+async function categoryCreatedEmail(adminEmails, categoryName, vendorName) {
+  try {
+  const info = await transtporter.sendmMail({
+    from: process.env.NODEMAIL,
+    to: adminEmails,
+    subject: "New Category Created",
+    text: `${vendorName} created new category: ${categoryName}`,
+    html: `
+        <h3>New category created</h3>
+        <p><b>Vendor:</b> ${vendorName}</p>
+        <p><b>Category:</b> ${categoryName}</p>
+        <p>Please review it in the admin panel.</p>
+      `
+  })
+
+  console.log("Message  sent %s", info.messageId);
+  
+  
+}catch(err) {
+  console.error("Error while sending mail:", err);
+}
+}
+
+
+
+module.exports = {verificationEmail,forgetPasswordEmail,categoryCreatedEmail}
+
